@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
     BrowserModule,
     AppRoutingModule,
     CommonModule,
+    // HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

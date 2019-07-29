@@ -2,6 +2,28 @@ import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core'
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { tap, map } from "rxjs/operators";
 
+
+class FakeObservable {
+  public observers: any[] = [];
+
+  public subscribe(observers: any) {
+    this.observers.push(observers);
+    return this.unsubscribe.bind(this, observers);
+  }
+
+  public unsubscribe(handler: any) {
+    let index = this.observers.findIndex((obs) => obs === handler);
+    if (index !== -1) {
+      console.log('Unsubscribed from', handler);
+      this.observers.splice(index, 1);
+    }
+  }
+
+  public notify(data: any) {
+    this.observers.forEach(subscriber => subscriber(data));
+  }
+}
+
 @Component({
   selector: 'app-pattern',
   templateUrl: './pattern.component.html',
@@ -48,22 +70,4 @@ export class PatternComponent implements OnInit {
 }
 
 
-class FakeObservable {
-  public observers: any[] = [];
-  public subscribe(observers: any) {
-    this.observers.push(observers);
-    return this.unsubscribe.bind(this, observers);
-  }
 
-  public unsubscribe(handler: any) {
-    let index = this.observers.findIndex((obs) => obs === handler);
-    if (index !== -1) {
-      console.log('Unsubscribed from', handler);
-      this.observers.splice(index, 1);
-    }
-  }
-
-  public notify(data: any) {
-    this.observers.forEach(subscriber => subscriber(data));
-  }
-}
