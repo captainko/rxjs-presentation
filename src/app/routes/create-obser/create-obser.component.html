@@ -1,0 +1,18 @@
+<ul>
+  <li><a routerLink="/create-obser/">Simple Observable</a></li>
+  <li><a routerLink="/create-obser/of">From Of</a></li>
+</ul>
+<router-outlet>
+  <div class="container">
+    <button (click)="subscribe()" class="btn btn-primary">
+      Subscribe
+    </button>
+    <div *ngIf="items.length" class="row flex-column align-content-around">
+      <div *ngFor="let item of items">
+        <div>
+          <p>{{item}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</router-outlet>
