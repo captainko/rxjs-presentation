@@ -5,10 +5,11 @@ import { ServiceRoutingModule } from './service-routing.module';
 import { CommonComponent } from './common/common.component';
 import { TakeUntilComponent } from './take-until/take-until.component';
 import { AsyncPipeComponent } from './async-pipe/async-pipe.component';
+import { ServiceComponent } from './service.component';
 
 
 @NgModule({
-  declarations: [CommonComponent, TakeUntilComponent, AsyncPipeComponent],
+  declarations: [CommonComponent, TakeUntilComponent, AsyncPipeComponent, ServiceComponent],
   imports: [
     CommonModule,
     ServiceRoutingModule
