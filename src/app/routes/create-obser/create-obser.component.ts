@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, interval } from 'rxjs';
+import { map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-obser',
@@ -9,18 +10,23 @@ import { Observable } from 'rxjs';
 export class CreateObserComponent implements OnInit {
   public items = [];
   public items$: Observable<string>;
+  private _numb = 0;
   constructor() {
     this.items$ = Observable.create((subscriber) => {
       setInterval(() => {
         subscriber.next('Hi,' + Math.random() * 100);
       }, 1000)
-    })
+    });
+
+      // this.items$ = interval(1000).pipe(map(_=> 'Hi,' + Math.floor(Math.random() * 100)))
+
   }
 
   ngOnInit() {
   }
 
   subscribe() {
-    this.items$.subscribe((item: string) => this.items.push(item));
+    let numb = this._numb++;
+    this.items$.subscribe((item: string) => this.items.push(`${numb} says: `, item));
   }
 }

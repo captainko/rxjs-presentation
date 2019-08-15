@@ -13,18 +13,18 @@ const detailApi = 'https://dummyapi.io/api/user/';
 })
 export class RequestComponent implements OnInit {
 
-  public users$: Observable<any>;
+  public users$: Observable<any> = this.http.get(userApi);
   public users: any[] = [];
   public subscription: Subscription;
-  constructor(private http: HttpClient) {
-  }
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
   public DoubleSubscribe() {
     this.Unsubscribe();
-    this.users$ = this.http.get(userApi);
+
     this.subscription = this.users$.subscribe(({ data }: { data: any[] }) => {
       this.users = data;
       setTimeout(() => {
@@ -39,7 +39,6 @@ export class RequestComponent implements OnInit {
 
   public MergeToArray() {
     this.Unsubscribe();
-    this.users$ = this.http.get(userApi);
     this.users$
       .pipe(
         switchMap(({ data }: { data: any[] }) => from(data)),
@@ -50,7 +49,6 @@ export class RequestComponent implements OnInit {
 
   public PushToArray() {
     this.Unsubscribe();
-    this.users$ = this.http.get(userApi);
     this.users$
       .pipe(
         switchMap(({ data }: { data: any[] }) => from(data)),

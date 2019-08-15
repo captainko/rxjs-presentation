@@ -8,7 +8,7 @@ class FakeObservable {
 
   public subscribe(observers: any) {
     this.observers.push(observers);
-    return this.unsubscribe.bind(this, observers);
+    return ()=> this.unsubscribe(observers);
   }
 
   public unsubscribe(handler: any) {
@@ -29,41 +29,55 @@ class FakeObservable {
   templateUrl: './pattern.component.html',
   styleUrls: ['./pattern.component.scss'],
   providers: [
-    { provide: "windowObject", useValue: window}
-   ]
+    { provide: "windowObject", useValue: window }
+  ]
 })
 export class PatternComponent implements OnInit {
 
 
+  // test pattern Obser
   constructor(@Inject('windowObject') window) {
 
-    // let obs = new FakeObservable();
-    // window.unsub1 = obs.subscribe((data: any) => console.log(`Observer 1:`, data));
-    // window.unsub2 = obs.subscribe((data: any) => console.log(`Observer 2:`, data));
-    // window.unsub3 = obs.subscribe((data: any) => console.log(`Observer 3:`, data));
+    let obs = new FakeObservable();
+    window.
+    window.unsub1 = obs.subscribe((data: any) => console.log(`Observer 1:`, data));
+    window.unsub2 = obs.subscribe((data: any) => console.log(`Observer 2:`, data));
+    window.unsub3 = obs.subscribe((data: any) => console.log(`Observer 3:`, data));
 
-    // setInterval(() => {
-    //   obs.notify('called');
-    // }, 2000);
+    setInterval(() => {
+      obs.notify('called');
+    }, 2000);
+
   }
 
+  // event$
   ngOnInit() {
-    this.userInput$ = fromEvent(this.userInput.nativeElement, 'keyup').pipe(map(({ target: { value } }: any) => value));
+    this.userInput$ = fromEvent(this.userInput.nativeElement, 'keydown')
+      .pipe(
+        map(({ target: { value } }) => value)
+      );
   }
 
   @ViewChild('userInput', { static: true }) userInput: ElementRef;
-  public userInput$: Observable<any>;
+  userInput$: Observable<any>;
 
-  public isSubscribed = [false, false];
-  public subValues: string[] = [];
-  public subs: Subscription[] = [];
+  isSubscribed = [false, false];
+  subValues: string[] = [];
+  subscription: Subscription[] = [];
+
+
   subscribe(index: number) {
-    this.subs[index] = this.userInput$.subscribe((value) => { this.subValues[index] = value; console.log(value); });
+    this.subscription[index] = this.userInput$
+      .subscribe(
+        (value) => {
+          this.subValues[index] = value;
+          console.log(value);
+        });
     this.isSubscribed[index] = true;
   }
 
   unsubscribe(index: number) {
-    this.subs[index].unsubscribe();
+    this.subscription[index].unsubscribe();
     this.isSubscribed[index] = false;
   }
 
