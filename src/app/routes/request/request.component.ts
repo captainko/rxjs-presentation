@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, Subscription } from 'rxjs';
-import { mergeMap, switchMap, toArray } from "rxjs/operators";
+import { mergeMap, switchMap, toArray, delay } from "rxjs/operators";
+import { shareAndCache } from 'src/app/operators/share-and-cache.operator';
 
 const userApi = 'https://dummyapi.io/api/user/?limit=100';
 const detailApi = 'https://dummyapi.io/api/user/';
@@ -42,8 +43,9 @@ export class RequestComponent implements OnInit {
     this.users$
       .pipe(
         switchMap(({ data }: { data: any[] }) => from(data)),
-        mergeMap((user) => this.http.get(detailApi + user.id) /*, 1*/),
+        mergeMap((user) => this.http.get(detailApi + user.id)/*,1*/),
         toArray(),
+        shareAndCache('user')
       ).subscribe((data) => this.users = data);
   }
 
@@ -52,14 +54,19 @@ export class RequestComponent implements OnInit {
     this.users$
       .pipe(
         switchMap(({ data }: { data: any[] }) => from(data)),
-        mergeMap((user) => this.http.get(detailApi + user.id)/*, 1*/),
+        mergeMap((user) => this.http.get(detailApi + user.id) /*, 1*/),
       )
       .subscribe((data) => this.users.push(data));
+  }
+
+  public trackById(index, user) {
+    return user.id;
   }
 
   private Unsubscribe() {
     this.users = [];
     this.subscription ? this.subscription.unsubscribe() : '';
   }
+
 
 }
