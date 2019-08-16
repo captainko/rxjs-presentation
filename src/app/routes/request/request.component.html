@@ -1,3 +1,7 @@
+
+<div>
+  {{time$ | async | date:'mediumTime'}}
+</div>
 <div class="container">
   <div class="text-center text-capitalize">
     <h2>User List</h2>
@@ -6,12 +10,12 @@
   <div class="row m5">
     <button (click)="DoubleSubscribe()" class="btn btn-primary">Double Subscribe</button>
     <button (click)="MergeToArray()" class="btn btn-danger">Merge To Array</button>
-    <button (click)="PushToArray()" class="btn-info">Push To Array</button>
+    <button (click)="PushToArray()" class="btn btn-info">Push To Array</button>
   </div>
 
   <div class="mt-5 p-2 border p-3">
     <div *ngIf="users.length" class="row flex-column align-content-around">
-      <div *ngFor="let user of users; trackBy:trackById" class="col-10 m-2 p-2" style="box-shadow: 2px 2px 10px 0 #d3d3d3;">
+      <div *ngFor="let user of users;" class="col-10 m-2 p-2" style="box-shadow: 2px 2px 10px 0 #d3d3d3;">
         <div class="row">
           <div class="col-auto">
             <img class="rounded-circle" style="box-shadow: 0 0 0 2px #d45bac; width: 120px; height: 120px;"
@@ -44,3 +48,5 @@
     </div>
   </div>
 </div>
+
+

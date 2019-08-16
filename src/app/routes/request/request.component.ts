@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from, Subscription } from 'rxjs';
-import { mergeMap, switchMap, toArray, delay } from "rxjs/operators";
+import { Observable, from, Subscription, interval } from 'rxjs';
+import { mergeMap, switchMap, toArray, delay, map, tap } from "rxjs/operators";
 import { shareAndCache } from 'src/app/operators/share-and-cache.operator';
 
 const userApi = 'https://dummyapi.io/api/user/?limit=100';
@@ -17,8 +17,11 @@ export class RequestComponent implements OnInit {
   public users$: Observable<any> = this.http.get(userApi);
   public users: any[] = [];
   public subscription: Subscription;
+  public time$: any;
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient,) {
+  }
 
   ngOnInit() {
   }
@@ -28,6 +31,7 @@ export class RequestComponent implements OnInit {
 
     this.subscription = this.users$.subscribe(({ data }: { data: any[] }) => {
       this.users = data;
+      console.log(this.users);
       setTimeout(() => {
         this.users.forEach((user, index) => {
           this.http.get(detailApi + user.id).subscribe((res: any) => {
@@ -51,6 +55,7 @@ export class RequestComponent implements OnInit {
 
   public PushToArray() {
     this.Unsubscribe();
+    this.users = [];
     this.users$
       .pipe(
         switchMap(({ data }: { data: any[] }) => from(data)),
@@ -64,7 +69,7 @@ export class RequestComponent implements OnInit {
   }
 
   private Unsubscribe() {
-    this.users = [];
+    // this.users = [];
     this.subscription ? this.subscription.unsubscribe() : '';
   }
 

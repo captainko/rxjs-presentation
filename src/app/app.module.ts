@@ -4,6 +4,11 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
+import { UserService } from './services/user.service';
+import { HttpClientModule } from '@angular/common/http';
+import { CoreModule } from './core/core.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
 
 @NgModule({
   declarations: [
@@ -11,11 +16,18 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     BrowserModule,
+    CoreModule,
     AppRoutingModule,
     CommonModule,
-    // HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

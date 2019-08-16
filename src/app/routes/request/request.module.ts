@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RequestRoutingModule } from './request-routing.module';
 import { RequestComponent } from './request.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     RequestRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule
   ]
 })
 export class RequestModule { }

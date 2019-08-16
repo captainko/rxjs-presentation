@@ -36,6 +36,7 @@ export class PatternComponent implements OnInit {
 
 
   // test pattern Obser
+  private _id: any;
   constructor(@Inject('windowObject') window) {
 
     let obs = new FakeObservable();
@@ -44,7 +45,7 @@ export class PatternComponent implements OnInit {
     window.unsub2 = obs.subscribe((data: any) => console.log(`Observer 2:`, data));
     window.unsub3 = obs.subscribe((data: any) => console.log(`Observer 3:`, data));
 
-    setInterval(() => {
+    this._id = setInterval(() => {
       obs.notify('called');
     }, 2000);
 
@@ -81,6 +82,9 @@ export class PatternComponent implements OnInit {
     this.isSubscribed[index] = false;
   }
 
+  ngOnDestroy(): void {
+    clearInterval(this._id)
+  }
 }
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, interval } from 'rxjs';
 import { map, share } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-obser',
@@ -17,7 +18,6 @@ export class CreateObserComponent implements OnInit {
         subscriber.next('Hi,' + Math.random() * 100);
       }, 1000)
     });
-
       // this.items$ = interval(1000).pipe(map(_=> 'Hi,' + Math.floor(Math.random() * 100)))
 
   }
