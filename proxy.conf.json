@@ -1,0 +1,7 @@
+{
+  "/users*": {
+      "target":"https://api.social-searcher.com/v2/",
+      "secure":false,
+      "logLevel":"debug"
+      }
+  }

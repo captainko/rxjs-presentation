@@ -1,0 +1,24 @@
+<div class="container">
+  <input  #searchEle type="text" placeholder="Search User" class="form-control">
+</div>
+<div class="container">
+  <div class="text-center text-capitalize">
+    <h2>User List</h2>
+  </div>
+
+  <div class="mt-5 p-2 border p-3">
+    <div class="row flex-column align-content-around">
+      <div *ngFor="let user of users" class="col-10 m-2 p-2" style="box-shadow: 2px 2px 10px 0 #d3d3d3;">
+        <div class="row">
+          <div class="col-auto">
+            <img class="rounded-circle" style="box-shadow: 0 0 0 2px #d45bac; width: 120px; height: 120px;"
+              [src]="user.image" alt="user image">
+          </div>
+          <div class="col-3 ml-2">
+            <h4 class="d-inline">{{user.name}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
